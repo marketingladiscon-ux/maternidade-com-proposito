@@ -647,58 +647,7 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
 const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () => void }) => {
   const resultRef = useRef<HTMLDivElement | null>(null);
 
-  // Save scores to Supabase when Result screen appears
-  useEffect(() => {
-    const saveScoresToSupabase = async () => {
-      try {
-        const storedId = localStorage.getItem('leadId');
-        console.log('📊 Attempting to save scores. Lead ID:', storedId);
-        console.log('📈 Score data:', data);
-        
-        if (storedId) {
-          console.log('🔄 Updating LEADS table with ID:', storedId);
-          const { data: response, error } = await supabase
-            .from('LEADS')
-            .update({
-              espiritual: data.espiritual,
-              casamento: data.casamento,
-              filhos: data.filhos,
-              lar: data.lar,
-              saude: data.saude,
-              mente: data.mente,
-              intelectual: data.intelectual,
-              profissional: data.profissional,
-              social: data.social,
-              relacionamentos: data.relacionamentos,
-            })
-            .eq('id', storedId);
-
-          if (error) {
-            console.error('❌ Supabase Error updating lead with scores:', error);
-            console.error('Error code:', error.code);
-            console.error('Error message:', error.message);
-          } else {
-            console.log('✅ Scores saved successfully to Supabase');
-            console.log('Response:', response);
-            // Clear stored id after successful update
-            try { 
-              localStorage.removeItem('leadId');
-              console.log('✅ Lead ID cleared from localStorage');
-            } catch (e) {
-              console.warn('⚠️ Failed to clear leadId from localStorage', e);
-            }
-          }
-        } else {
-          console.warn('⚠️ No lead id available in localStorage to update scores');
-          console.log('localStorage keys:', Object.keys(localStorage));
-        }
-      } catch (err) {
-        console.error('❌ Exception updating lead:', err);
-      }
-    };
-
-    saveScoresToSupabase();
-  }, [data]);
+  // Score saving is now handled only at form submission with name/email/whatsapp
 
   const handleDownload = async () => {
     if (!resultRef.current) {
@@ -794,43 +743,45 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
               </ResponsiveContainer>
             </div>
 
-            <div className="bg-olive/5 p-8 rounded-2xl mb-12 text-left border border-olive/10">
+            <div className="bg-olive/5 p-8 rounded-2xl mb-8 text-left border border-olive/10">
               <h3 className="text-2xl font-serif mb-4 flex items-center gap-2">
                 <span className="text-gold"><Sparkles /></span> Área Crítica: {criticalArea.label}
               </h3>
               <p className="text-olive/80 leading-relaxed tracking-wide">
                 Sua pontuação nesta área indica que ela é o principal ponto de vazamento de energia na sua vida hoje. Quando o <span className="font-bold">{criticalArea.label}</span> está desestruturado, ele sobrecarrega todas as outras áreas, criando o ciclo de exaustão que você sente.
               </p>
+              <p className="text-olive/60 text-sm mt-6 italic">
+                Área Crítica: <span className="font-bold">{criticalArea.label}</span> - Tire um print/printscreen desta tela para guardar o seu resultado.
+              </p>
             </div>
           </div>
 
-          <div className="space-y-8">
-            <p className="text-2xl font-serif italic text-olive/60 leading-relaxed">
-              "Visualizar o problema é o primeiro passo, mas visualizar não resolve."
-            </p>
-            <div className="grid md:grid-cols-2 gap-4">
-              <Button variant="primary" className="w-full py-6 text-xl tracking-widest" onClick={handleDownload}>
-                BAIXAR MEU RESULTADO
-              </Button>
-              <a 
-                href="https://pay.hotmart.com/O104824255V?bid=1774973353512"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  "inline-flex items-center justify-center w-full py-6 text-xl tracking-widest",
-                  "bg-transparent border-2 border-olive text-olive rounded-xl",
-                  "hover:bg-olive/5 transition-colors duration-200",
-                  "gap-2 font-medium"
-                )}
-              >
-                <div className="flex flex-col items-center justify-center w-full">
-                  <span className="text-sm leading-tight">LIVE DE APROFUNDAMENTO MCP</span>
-                  <span className="text-xs opacity-80 mt-1">Sábado, 11 de Abril, às 19h (Horário de Brasília)</span>
-                  <span className="text-base font-bold mt-2">GARANTIR MINHA VAGA ✨</span>
-                </div>
-                <Play className="fill-olive flex-shrink-0" size={20} />
-              </a>
+          <div className="space-y-8 max-w-2xl mx-auto">
+            <div>
+              <p className="text-2xl font-serif italic text-olive/60 leading-relaxed mb-3">
+                "Visualizar o problema é o primeiro passo,
+              </p>
+              <p className="text-3xl font-serif italic font-bold text-olive leading-relaxed">
+                mas visualizar não resolve."
+              </p>
             </div>
+            <a 
+              href="https://pay.hotmart.com/O104824255V?bid=1774973353512"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "block w-full px-8 py-8 rounded-2xl text-center",
+                "bg-olive text-beige font-medium transition-all duration-300",
+                "hover:bg-olive/90 text-xl tracking-widest",
+                "no-underline"
+              )}
+            >
+              <div className="flex flex-col items-center justify-center w-full gap-2">
+                <span className="text-sm font-semibold leading-tight">LIVE DE APROFUNDAMENTO MCP</span>
+                <span className="text-xs opacity-90 mt-1">Sábado, 11 de Abril, às 20h (Horário de Brasília)</span>
+                <span className="text-base font-bold mt-2">GARANTIR MINHA VAGA ✨</span>
+              </div>
+            </a>
           </div>
         </motion.div>
       </div>
@@ -884,13 +835,17 @@ const Sales = () => {
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                "inline-flex items-center justify-center w-full px-8 py-8 rounded-full",
-                "border-2 border-olive text-olive font-medium transition-all duration-300",
-                "hover:bg-olive hover:text-beige text-2xl tracking-[0.2em]",
-                "gap-2 no-underline"
+                "block w-full px-8 py-8 rounded-2xl text-center",
+                "bg-olive text-beige font-medium transition-all duration-300",
+                "hover:bg-olive/90 text-2xl tracking-[0.2em]",
+                "no-underline"
               )}
             >
-              GARANTIR MINHA VAGA ✨ <Play className="fill-olive" />
+              <div className="flex flex-col items-center justify-center w-full">
+                <span className="text-sm font-semibold leading-tight">LIVE DE APROFUNDAMENTO MCP</span>
+                <span className="text-xs opacity-90 mt-1">Sábado, 11 de Abril, às 20h (Horário de Brasília)</span>
+                <span className="text-base font-bold mt-2">GARANTIR MINHA VAGA ✨</span>
+              </div>
             </a>
             <p className="mt-6 text-[10px] uppercase tracking-widest text-olive/40">Vagas limitadas para garantir a qualidade da interação</p>
           </motion.div>
@@ -945,78 +900,10 @@ export default function App() {
   const startDiagnosis = () => setCurrentPage('diagnosis');
   const completeDiagnosis = async (data: DiagnosisData, formData?: { name: string; email: string; whatsapp: string }) => {
     setDiagnosisData(data);
-    console.log('📈 Saving diagnosis complete with all data');
+    console.log('📈 Diagnosis completed - transitioning to Result screen');
     console.log('Form data:', formData);
-    console.log('Scores:', data);
-
-    try {
-      // Check if we have formData from the final Diagnosis submission
-      if (formData) {
-        console.log('🔄 Saving new lead with scores from Diagnosis completion...');
-        // Insert new lead with all data at once (scores + form data)
-        const { data: newLead, error: insertError } = await supabase
-          .from('LEADS')
-          .insert([{
-            nome: formData.name,
-            email: formData.email,
-            whatsApp: formData.whatsapp,
-            espiritual: data.espiritual,
-            casamento: data.casamento,
-            filhos: data.filhos,
-            lar: data.lar,
-            saude: data.saude,
-            mente: data.mente,
-            intelectual: data.intelectual,
-            profissional: data.profissional,
-            social: data.social,
-            relacionamentos: data.relacionamentos,
-          }])
-          .select();
-
-        if (insertError) {
-          console.error('❌ Error inserting lead with scores:', insertError);
-          window.alert('Erro ao salvar seu diagnóstico. Por favor, tente novamente.');
-        } else {
-          console.log('✅ Lead inserted successfully with all data:', newLead);
-          // Clear localStorage after successful insert
-          try { localStorage.removeItem('leadId'); } catch (e) {}
-        }
-      } else {
-        // Fallback: If we have a lead saved earlier, update it with the diagnosis scores
-        const storedId = lead && lead.id ? lead.id : (localStorage.getItem('leadId') || null);
-        if (storedId) {
-          console.log('🔄 Updating existing lead with scores using ID:', storedId);
-          const { error } = await supabase
-            .from('LEADS')
-            .update({
-              espiritual: data.espiritual,
-              casamento: data.casamento,
-              filhos: data.filhos,
-              lar: data.lar,
-              saude: data.saude,
-              mente: data.mente,
-              intelectual: data.intelectual,
-              profissional: data.profissional,
-              social: data.social,
-              relacionamentos: data.relacionamentos,
-            })
-            .eq('id', storedId);
-
-          if (error) {
-            console.error('❌ Error updating lead with scores:', error);
-          } else {
-            console.log('✅ Scores updated successfully');
-            // clear stored id after successful update
-            try { localStorage.removeItem('leadId'); } catch (e) {}
-          }
-        } else {
-          console.warn('⚠️ No lead id available to update scores');
-        }
-      }
-    } catch (err) {
-      console.error('❌ Exception in completeDiagnosis:', err);
-    }
-
+    console.log('Note: Scores are not persisted to Supabase per requirements. Lead data (name/email/whatsapp) saved during form submission.');
+    
     setCurrentPage('result');
   };
   const goToSales = () => setCurrentPage('sales');
