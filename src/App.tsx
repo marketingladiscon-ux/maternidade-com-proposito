@@ -220,6 +220,10 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
                 alt="Maternidade com Propósito" 
                 className="h-24 md:h-40 mx-auto mb-0 object-contain"
                 referrerPolicy="no-referrer"
+                loading="lazy"
+                decoding="async"
+                width={400}
+                height={200}
               />
               <div className="w-16 h-[1px] bg-gold/30 mx-auto" />
               <span className="block text-[10px] md:text-xs text-olive/60 tracking-[0.2em] uppercase max-w-xs mx-auto leading-relaxed">
@@ -414,6 +418,10 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
                     alt="Sonja - Fundadora MCP" 
                     className="relative rounded-3xl shadow-2xl grayscale group-hover:grayscale-0 transition-all duration-1000 w-full object-cover aspect-[4/5]"
                     referrerPolicy="no-referrer"
+                    loading="lazy"
+                    decoding="async"
+                    width={300}
+                    height={400}
                   />
                 </motion.div>
                 <div className="absolute bottom-6 left-6 right-6 p-6 glass-dark rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -866,6 +874,10 @@ const Sales = () => {
                   alt="Sonja" 
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                   referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
+                  width={288}
+                  height={384}
                 />
               </div>
             </div>
@@ -924,6 +936,9 @@ export default function App() {
               alt="Maternidade com Propósito" 
               className="h-6 md:h-8 lg:h-12 object-contain"
               referrerPolicy="no-referrer"
+              loading="eager"
+              width={200}
+              height={60}
             />
           </div>
           
@@ -997,16 +1012,29 @@ export default function App() {
               alt="Maternidade com Propósito" 
               className="h-16 md:h-20 object-contain opacity-80 brightness-0 invert"
               referrerPolicy="no-referrer"
+              loading="lazy"
+              decoding="async"
+              width={200}
+              height={80}
             />
             <div className="space-y-2">
-              <span className="block font-serif tracking-[0.4em] text-gold text-lg">MATERNIDADE COM PROPÓSITO</span>
+              <span className="block font-serif tracking-[0.2em] md:tracking-[0.4em] text-gold text-lg">MATERNIDADE COM PROPÓSITO</span>
               <span className="block text-[10px] tracking-[0.2em] uppercase opacity-60 max-w-xs mx-auto">
                 Somos arqueiros que precisamos ser preparados para formar flechas
               </span>
             </div>
           </div>
           <div className="w-12 h-[1px] bg-gold/30 mx-auto mb-8" />
-          <p className="text-[10px] tracking-widest uppercase opacity-40">© 2026 Maternidade com Propósito (MCP™). Todos os direitos reservados.</p>
+          <div className="flex flex-col items-center gap-4 mb-6">
+            <p className="text-[10px] tracking-widest uppercase opacity-40">© 2026 Maternidade com Propósito (MCP™). Todos os direitos reservados.</p>
+            <a 
+              href="/privacidade" 
+              className="text-[10px] tracking-widest uppercase opacity-40 hover:opacity-70 transition-opacity"
+              title="Política de Privacidade - LGPD"
+            >
+              Política de Privacidade
+            </a>
+          </div>
         </footer>
       )}
     </div>
