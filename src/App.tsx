@@ -651,8 +651,12 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
     const saveScoresToSupabase = async () => {
       try {
         const storedId = localStorage.getItem('leadId');
+        console.log('📊 Attempting to save scores. Lead ID:', storedId);
+        console.log('📈 Score data:', data);
+        
         if (storedId) {
-          const { error } = await supabase
+          console.log('🔄 Updating LEADS table with ID:', storedId);
+          const { data: response, error } = await supabase
             .from('LEADS')
             .update({
               espiritual: data.espiritual,
@@ -669,31 +673,49 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
             .eq('id', storedId);
 
           if (error) {
-            console.error('Error updating lead with scores:', error);
+            console.error('❌ Supabase Error updating lead with scores:', error);
+            console.error('Error code:', error.code);
+            console.error('Error message:', error.message);
           } else {
-            console.log('Scores saved successfully to Supabase');
+            console.log('✅ Scores saved successfully to Supabase');
+            console.log('Response:', response);
             // Clear stored id after successful update
             try { 
-              localStorage.removeItem('leadId'); 
+              localStorage.removeItem('leadId');
+              console.log('✅ Lead ID cleared from localStorage');
             } catch (e) {
-              console.warn('Failed to clear leadId from localStorage', e);
+              console.warn('⚠️ Failed to clear leadId from localStorage', e);
             }
           }
         } else {
-          console.log('No lead id available to update scores');
+          console.warn('⚠️ No lead id available in localStorage to update scores');
+          console.log('localStorage keys:', Object.keys(localStorage));
         }
       } catch (err) {
-        console.error('Exception updating lead:', err);
+        console.error('❌ Exception updating lead:', err);
       }
     };
 
     saveScoresToSupabase();
-  }, []);
+  }, [data]);
 
   const handleDownload = async () => {
-    if (!resultRef.current) return;
+    if (!resultRef.current) {
+      console.error('❌ Result ref is not available');
+      window.alert('Erro: Não foi possível capturar a imagem. Tente novamente.');
+      return;
+    }
     try {
-      const canvas = await html2canvas(resultRef.current as HTMLElement, { useCORS: true, scale: 2 });
+      console.log('📸 Starting capture from resultRef...');
+      const canvas = await html2canvas(resultRef.current as HTMLElement, { 
+        useCORS: true, 
+        scale: 2,
+        backgroundColor: '#f5f0e8',
+        logging: false,
+        allowTaint: false
+      });
+      console.log('📸 Canvas capture successful, dimensions:', canvas.width, 'x', canvas.height);
+      
       const ctx = canvas.getContext('2d');
       if (ctx) {
         const watermark = '@sonjachacon';
@@ -704,18 +726,23 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
         const x = canvas.width - padding - textMetrics.width;
         const y = canvas.height - padding / 2;
         ctx.fillText(watermark, x, y);
+        console.log('✅ Watermark added');
       }
 
       const url = canvas.toDataURL('image/png');
+      console.log('✅ Image generated, size:', url.length, 'bytes');
+      
       const link = document.createElement('a');
       link.href = url;
       link.download = 'meu_resultado.png';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      console.log('✅ Download triggered successfully');
     } catch (err) {
-      console.error(err);
-      window.alert('Clique e segure na imagem para salvar');
+      console.error('❌ Download error:', err);
+      console.error('Error type:', err instanceof Error ? err.message : String(err));
+      window.alert('Erro ao baixar imagem. Tente novamente ou clique e segure na imagem para salvar.');
     }
   };
   const chartData = useMemo(() => {
@@ -793,7 +820,7 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
               >
                 <div className="flex flex-col items-center justify-center w-full">
                   <span className="text-sm leading-tight">LIVE DE APROFUNDAMENTO MCP</span>
-                  <span className="text-xs opacity-80 mt-1">11 de Abril de 2026 | 19h (Horário de Brasília)</span>
+                  <span className="text-xs opacity-80 mt-1">Próxima Terça-feira, às 20h (Horário de Brasília)</span>
                   <span className="text-base font-bold mt-2">GARANTIR MINHA VAGA POR R$ 27</span>
                 </div>
                 <Play className="fill-olive flex-shrink-0" size={20} />
@@ -847,9 +874,19 @@ const Sales = () => {
               </div>
             </div>
 
-            <Button variant="outline" className="w-full py-8 text-2xl tracking-[0.2em]">
+            <a
+              href="https://pay.hotmart.com/O104824255V?bid=1774973353512"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "inline-flex items-center justify-center w-full px-8 py-8 rounded-full",
+                "border-2 border-olive text-olive font-medium transition-all duration-300",
+                "hover:bg-olive hover:text-beige text-2xl tracking-[0.2em]",
+                "gap-2 no-underline"
+              )}
+            >
               GARANTIR MINHA VAGA NA AULA <Play className="fill-olive" />
-            </Button>
+            </a>
             <p className="mt-6 text-[10px] uppercase tracking-widest text-olive/40">Vagas limitadas para garantir a qualidade da interação</p>
           </motion.div>
         </div>
