@@ -709,7 +709,7 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
     try {
       console.log('📸 Starting capture from resultRef...');
       // Wait for Radar chart to fully render before capturing
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('✅ Waited for render, now capturing...');
       
       const canvas = await html2canvas(resultRef.current as HTMLElement, { 
@@ -825,8 +825,8 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
               >
                 <div className="flex flex-col items-center justify-center w-full">
                   <span className="text-sm leading-tight">LIVE DE APROFUNDAMENTO MCP</span>
-                  <span className="text-xs opacity-80 mt-1">Próxima Terça-feira, às 20h (Horário de Brasília)</span>
-                  <span className="text-base font-bold mt-2">GARANTIR MINHA VAGA POR R$ 27</span>
+                  <span className="text-xs opacity-80 mt-1">Sábado, 11 de Abril, às 19h (Horário de Brasília)</span>
+                  <span className="text-base font-bold mt-2">GARANTIR MINHA VAGA ✨</span>
                 </div>
                 <Play className="fill-olive flex-shrink-0" size={20} />
               </a>
@@ -874,7 +874,7 @@ const Sales = () => {
                 <ul className="space-y-4 text-sm text-olive/70">
                   <li className="flex items-start gap-3"><span className="text-gold">📅</span> Sábado, 11 de Abril</li>
                   <li className="flex items-start gap-3"><span className="text-gold">⏰</span> Às 19h (Horário de Brasília)</li>
-                  <li className="flex items-start gap-3"><span className="text-gold">📍</span> Transmissão Online e Gratuita</li>
+                  <li className="flex items-start gap-3"><span className="text-gold">📍</span> Transmissão Online</li>
                 </ul>
               </div>
             </div>
@@ -890,7 +890,7 @@ const Sales = () => {
                 "gap-2 no-underline"
               )}
             >
-              GARANTIR MINHA VAGA NA AULA <Play className="fill-olive" />
+              GARANTIR MINHA VAGA ✨ <Play className="fill-olive" />
             </a>
             <p className="mt-6 text-[10px] uppercase tracking-widest text-olive/40">Vagas limitadas para garantir a qualidade da interação</p>
           </motion.div>
