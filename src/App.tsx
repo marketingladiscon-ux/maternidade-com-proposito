@@ -201,7 +201,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
       <BackgroundElements />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-10 pb-40 overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center pt-10 pb-16 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-gold/10 rounded-full blur-3xl" />
           <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-olive/5 rounded-full blur-3xl" />
@@ -327,7 +327,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
                     <CheckCircle2 />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold mb-2">Diagnóstico Preciso</h4>
+                    <h3 className="text-xl font-bold mb-2">Diagnóstico Preciso</h3>
                     <p className="text-olive/70">Identifique exatamente onde está o vazamento de energia da sua casa.</p>
                   </div>
                 </div>
@@ -336,7 +336,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
                     <CheckCircle2 />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold mb-2">Estrutura de Sustentação</h4>
+                    <h3 className="text-xl font-bold mb-2">Estrutura de Sustentação</h3>
                     <p className="text-olive/70">Aprenda a colocar Deus no centro e organizar as outras 9 áreas ao redor Dele.</p>
                   </div>
                 </div>
@@ -345,7 +345,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
                     <CheckCircle2 />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold mb-2">Legado para os Filhos</h4>
+                    <h3 className="text-xl font-bold mb-2">Legado para os Filhos</h3>
                     <p className="text-olive/70">Forme filhos com valores inabaláveis através de uma mãe estruturada.</p>
                   </div>
                 </div>
@@ -859,7 +859,7 @@ const Sales = () => {
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="flex flex-col md:flex-row items-center gap-16">
             <div className="relative">
-              <div className="absolute -inset-4 border border-gold/20 rounded-2xl rotate-6" />
+              <div className="absolute -inset-4 border border-gold/20 rounded-2xl rotate-6 z-0" />
               <div className="w-72 h-96 rounded-2xl overflow-hidden shadow-2xl relative z-10">
                 <img 
                   src={SONJA_PHOTO} 
