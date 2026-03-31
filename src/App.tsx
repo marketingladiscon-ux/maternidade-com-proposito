@@ -356,9 +356,9 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
                 <p className="text-xs opacity-80">Descubra qual área está te esgotando hoje através do nosso diagnóstico exclusivo.</p>
               </div>
             </div>
-            <div className="lg:w-1/2 relative">
-              <div className="aspect-square bg-white rounded-full shadow-2xl p-8 flex items-center justify-center">
-                <ResponsiveContainer width="100%" height="100%">
+            <div className="lg:w-1/2 relative w-full">
+              <div className="w-full h-80 md:h-96 lg:aspect-square lg:max-w-md mx-auto bg-white rounded-full shadow-2xl p-4 md:p-8 flex items-center justify-center">
+                <ResponsiveContainer width="100%" height="100%" minWidth={250} minHeight={250}>
                   <RadarChart cx="50%" cy="50%" outerRadius="80%" data={AREAS.map(a => ({ subject: a.label, A: 80 }))}>
                     <PolarGrid stroke="#556B2F" strokeOpacity={0.2} />
                     <PolarAngleAxis dataKey="subject" tick={{ fill: '#556B2F', fontSize: 10 }} />
@@ -727,21 +727,22 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
           <h1 className="text-4xl md:text-6xl font-serif mb-12">O retrato da sua <span className="italic">estrutura atual</span></h1>
           
           <div ref={resultRef}>
-            <div className="aspect-square max-w-md mx-auto mb-12 relative">
-              <div className="absolute inset-0 bg-gold/5 rounded-full blur-3xl animate-pulse" />
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
-                  <PolarGrid stroke="#542916" strokeOpacity={0.1} />
-                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#542916', fontSize: 10, fontWeight: 300 }} />
-                  <Radar
-                    name="Você"
-                    dataKey="A"
-                    stroke="#c1884a"
-                    fill="#c1884a"
-                    fillOpacity={0.5}
-                  />
-                </RadarChart>
-              </ResponsiveContainer>
+            <div className="w-full relative mb-12">
+              <div className="w-full h-80 md:h-96 max-w-md mx-auto bg-white rounded-full shadow-2xl p-4 md:p-8 flex items-center justify-center">
+                <ResponsiveContainer width="100%" height="100%" minWidth={250} minHeight={250}>
+                  <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
+                    <PolarGrid stroke="#542916" strokeOpacity={0.1} />
+                    <PolarAngleAxis dataKey="subject" tick={{ fill: '#542916', fontSize: 10, fontWeight: 300 }} />
+                    <Radar
+                      name="Você"
+                      dataKey="A"
+                      stroke="#c1884a"
+                      fill="#c1884a"
+                      fillOpacity={0.5}
+                    />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
 
             <div className="bg-olive/5 p-8 rounded-2xl mb-8 text-left border border-olive/10">
@@ -921,18 +922,18 @@ export default function App() {
             <img 
               src={LOGO_TEXT_URL} 
               alt="Maternidade com Propósito" 
-              className="h-8 md:h-12 object-contain"
+              className="h-6 md:h-8 lg:h-12 object-contain"
               referrerPolicy="no-referrer"
             />
           </div>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 md:gap-4 lg:gap-6">
             {currentPage === 'home' && (
-              <Button variant="outline" onClick={startDiagnosis} className="px-6 py-2 text-[10px] tracking-widest">
+              <Button variant="outline" onClick={startDiagnosis} className="px-2 md:px-4 lg:px-6 py-1.5 md:py-2 text-[8px] md:text-[9px] lg:text-[10px] tracking-widest whitespace-nowrap">
                 DIAGNÓSTICO
               </Button>
             )}
-            <Button variant="primary" onClick={goToSales} className="px-6 py-2 text-[10px] tracking-widest">
+            <Button variant="primary" onClick={goToSales} className="px-2 md:px-4 lg:px-6 py-1.5 md:py-2 text-[8px] md:text-[9px] lg:text-[10px] tracking-widest whitespace-nowrap">
               AULA AO VIVO
             </Button>
           </div>
