@@ -448,7 +448,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
   );
 };
 
-const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete: (data: DiagnosisData) => void, onStartDiagnosis?: () => void, onLeadCreated?: (lead: any) => void }) => {
+const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete: (data: DiagnosisData, formData?: { name: string; email: string; whatsapp: string }) => void, onStartDiagnosis?: () => void, onLeadCreated?: (lead: any) => void }) => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({ name: '', email: '', whatsapp: '' });
   const [scores, setScores] = useState<DiagnosisData>(INITIAL_DIAGNOSIS);
@@ -459,7 +459,8 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
     if (step < AREAS.length) {
       setStep(step + 1);
     } else {
-      onComplete(scores);
+      // On final step (step 10), pass both scores and form data
+      onComplete(scores, formData);
     }
   };
 
@@ -632,7 +633,7 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
                   Voltar
                 </Button>
                 <Button variant="primary" className="flex-[2] py-4 text-[10px] tracking-widest" onClick={handleNext}>
-                  {step === 10 ? 'VER RESULTADO' : 'PRÓXIMA ÁREA'} <ChevronRight />
+                  {step === 10 ? 'VER MEU DIAGNÓSTICO' : 'PRÓXIMA ÁREA'} <ChevronRight />
                 </Button>
               </div>
             </motion.div>
@@ -707,11 +708,15 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
     }
     try {
       console.log('📸 Starting capture from resultRef...');
+      // Wait for Radar chart to fully render before capturing
+      await new Promise(resolve => setTimeout(resolve, 500));
+      console.log('✅ Waited for render, now capturing...');
+      
       const canvas = await html2canvas(resultRef.current as HTMLElement, { 
         useCORS: true, 
         scale: 2,
         backgroundColor: '#f5f0e8',
-        logging: false,
+        logging: true,
         allowTaint: false
       });
       console.log('📸 Canvas capture successful, dimensions:', canvas.width, 'x', canvas.height);
@@ -867,8 +872,8 @@ const Sales = () => {
               <div className="bg-beige/30 p-8 rounded-2xl border border-gold/5">
                 <h3 className="font-serif text-xl mb-4 text-olive">Detalhes da Aula:</h3>
                 <ul className="space-y-4 text-sm text-olive/70">
-                  <li className="flex items-start gap-3"><span className="text-gold">📅</span> Próxima Terça-feira</li>
-                  <li className="flex items-start gap-3"><span className="text-gold">⏰</span> Às 20h (Horário de Brasília)</li>
+                  <li className="flex items-start gap-3"><span className="text-gold">📅</span> Sábado, 11 de Abril</li>
+                  <li className="flex items-start gap-3"><span className="text-gold">⏰</span> Às 19h (Horário de Brasília)</li>
                   <li className="flex items-start gap-3"><span className="text-gold">📍</span> Transmissão Online e Gratuita</li>
                 </ul>
               </div>
@@ -938,16 +943,23 @@ export default function App() {
   }, [currentPage]);
 
   const startDiagnosis = () => setCurrentPage('diagnosis');
-  const completeDiagnosis = async (data: DiagnosisData) => {
+  const completeDiagnosis = async (data: DiagnosisData, formData?: { name: string; email: string; whatsapp: string }) => {
     setDiagnosisData(data);
+    console.log('📈 Saving diagnosis complete with all data');
+    console.log('Form data:', formData);
+    console.log('Scores:', data);
 
-    // If we have a lead saved earlier, update it with the diagnosis scores
     try {
-      const storedId = lead && lead.id ? lead.id : (localStorage.getItem('leadId') || null);
-      if (storedId) {
-        const { error } = await supabase
+      // Check if we have formData from the final Diagnosis submission
+      if (formData) {
+        console.log('🔄 Saving new lead with scores from Diagnosis completion...');
+        // Insert new lead with all data at once (scores + form data)
+        const { data: newLead, error: insertError } = await supabase
           .from('LEADS')
-          .update({
+          .insert([{
+            nome: formData.name,
+            email: formData.email,
+            whatsApp: formData.whatsapp,
             espiritual: data.espiritual,
             casamento: data.casamento,
             filhos: data.filhos,
@@ -958,20 +970,51 @@ export default function App() {
             profissional: data.profissional,
             social: data.social,
             relacionamentos: data.relacionamentos,
-          })
-          .eq('id', storedId);
+          }])
+          .select();
 
-        if (error) {
-          console.log('Error updating lead with scores:', error);
+        if (insertError) {
+          console.error('❌ Error inserting lead with scores:', insertError);
+          window.alert('Erro ao salvar seu diagnóstico. Por favor, tente novamente.');
         } else {
-          // clear stored id after successful update
+          console.log('✅ Lead inserted successfully with all data:', newLead);
+          // Clear localStorage after successful insert
           try { localStorage.removeItem('leadId'); } catch (e) {}
         }
       } else {
-        console.log('No lead id available to update scores');
+        // Fallback: If we have a lead saved earlier, update it with the diagnosis scores
+        const storedId = lead && lead.id ? lead.id : (localStorage.getItem('leadId') || null);
+        if (storedId) {
+          console.log('🔄 Updating existing lead with scores using ID:', storedId);
+          const { error } = await supabase
+            .from('LEADS')
+            .update({
+              espiritual: data.espiritual,
+              casamento: data.casamento,
+              filhos: data.filhos,
+              lar: data.lar,
+              saude: data.saude,
+              mente: data.mente,
+              intelectual: data.intelectual,
+              profissional: data.profissional,
+              social: data.social,
+              relacionamentos: data.relacionamentos,
+            })
+            .eq('id', storedId);
+
+          if (error) {
+            console.error('❌ Error updating lead with scores:', error);
+          } else {
+            console.log('✅ Scores updated successfully');
+            // clear stored id after successful update
+            try { localStorage.removeItem('leadId'); } catch (e) {}
+          }
+        } else {
+          console.warn('⚠️ No lead id available to update scores');
+        }
       }
     } catch (err) {
-      console.log('Exception updating lead:', err);
+      console.error('❌ Exception in completeDiagnosis:', err);
     }
 
     setCurrentPage('result');
@@ -1080,3 +1123,4 @@ export default function App() {
     </div>
   );
 }
+
