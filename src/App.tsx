@@ -41,7 +41,7 @@ function cn(...inputs: ClassValue[]) {
 }
 
 // --- Types ---
-type Page = 'home' | 'diagnosis' | 'result' | 'sales';
+type Page = 'home' | 'diagnosis' | 'result' | 'sales' | 'privacy';
 
 interface DiagnosisData {
   espiritual: number;
@@ -900,6 +900,102 @@ const Sales = () => {
   );
 };
 
+// --- Privacy Page ---
+const Privacy = ({ onBack }: { onBack: () => void }) => {
+  return (
+    <div className="min-h-screen bg-beige pt-20 px-4 pb-20">
+      <div className="container mx-auto max-w-3xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-3xl shadow-2xl p-8 md:p-16"
+        >
+          <button
+            onClick={onBack}
+            className="mb-8 text-gold font-bold flex items-center gap-2 hover:gap-3 transition-all"
+          >
+            <ChevronRight className="w-5 h-5 rotate-180" /> Voltar
+          </button>
+
+          <h1 className="text-4xl md:text-5xl font-serif mb-8 text-olive">Política de Privacidade</h1>
+          
+          <div className="space-y-8 text-olive/80 leading-relaxed">
+            <section>
+              <h2 className="text-2xl font-serif font-bold mb-4 text-olive">1. Introdução</h2>
+              <p>
+                A Maternidade com Propósito ("Empresa") respeita sua privacidade e está comprometida em proteger seus dados pessoais de acordo com a Lei Geral de Proteção de Dados Pessoais (LGPD) - Lei nº 13.709/2018.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-serif font-bold mb-4 text-olive">2. Dados Coletados</h2>
+              <p>Coletamos os seguintes dados pessoais através do formulário de diagnóstico:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-4">
+                <li>Nome completo</li>
+                <li>Endereço de e-mail</li>
+                <li>Número de WhatsApp</li>
+                <li>Respostas do questionário de diagnóstico (10 áreas)</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-serif font-bold mb-4 text-olive">3. Finalidade do Tratamento</h2>
+              <p>Seus dados são utilizados para:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-4">
+                <li>Gerar seu diagnóstico personalizado</li>
+                <li>Comunicar sobre ofertas de mentorias e conteúdos relacionados</li>
+                <li>Melhorar nossos serviços</li>
+                <li>Cumprir obrigações legais</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-serif font-bold mb-4 text-olive">4. Direitos do Titular</h2>
+              <p>Você tem direito a:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-4">
+                <li>Acessar seus dados pessoais</li>
+                <li>Corrigir dados incompletos ou inexatos</li>
+                <li>Solicitar a exclusão de seus dados</li>
+                <li>Revogar seu consentimento</li>
+                <li>Solicitar portabilidade de dados</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-serif font-bold mb-4 text-olive">5. Segurança</h2>
+              <p>
+                Implementamos medidas técnicas e administrativas apropriadas para proteger seus dados contra acesso não autorizado, alteração, divulgação ou destruição.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-serif font-bold mb-4 text-olive">6. Contato</h2>
+              <p>
+                Para exercer seus direitos ou tirar dúvidas sobre esta Política de Privacidade, entre em contato através de:
+              </p>
+              <p className="mt-4">
+                📧 E-mail: <span className="font-bold">sonia@maternidadecompropósito.com</span>
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-serif font-bold mb-4 text-olive">7. Alterações na Política</h2>
+              <p>
+                Esta Política de Privacidade pode ser atualizada periodicamente. Notificaremos sobre mudanças significativas através do e-mail ou da plataforma.
+              </p>
+            </section>
+
+            <p className="text-sm opacity-60 mt-12">
+              Última atualização: 31 de março de 2026
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+};
+
 // --- Main App ---
 
 export default function App() {
@@ -1001,10 +1097,21 @@ export default function App() {
               <Sales />
             </motion.div>
           )}
+
+          {currentPage === 'privacy' && (
+            <motion.div
+              key="privacy"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <Privacy onBack={() => setCurrentPage('home')} />
+            </motion.div>
+          )}
         </AnimatePresence>
       </main>
 
-      {currentPage !== 'diagnosis' && (
+      {currentPage !== 'diagnosis' && currentPage !== 'privacy' && (
         <footer className="py-16 bg-olive text-beige/50 text-center border-t border-beige/10">
           <div className="flex flex-col items-center gap-6 mb-8">
             <img 
@@ -1027,13 +1134,13 @@ export default function App() {
           <div className="w-12 h-[1px] bg-gold/30 mx-auto mb-8" />
           <div className="flex flex-col items-center gap-4 mb-6">
             <p className="text-[10px] tracking-widest uppercase opacity-40">© 2026 Maternidade com Propósito (MCP™). Todos os direitos reservados.</p>
-            <a 
-              href="/privacidade" 
-              className="text-[10px] tracking-widest uppercase opacity-40 hover:opacity-70 transition-opacity"
+            <button 
+              onClick={() => setCurrentPage('privacy')}
+              className="text-[10px] tracking-widest uppercase opacity-40 hover:opacity-70 transition-opacity cursor-pointer"
               title="Política de Privacidade - LGPD"
             >
               Política de Privacidade
-            </a>
+            </button>
           </div>
         </footer>
       )}
