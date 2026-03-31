@@ -82,11 +82,12 @@ const AREAS = [
   { id: 'relacionamentos', label: 'Relacionamentos', icon: MessageCircle },
 ];
 
-const LOGO_URL = "https://lh3.googleusercontent.com/d/1lPbdKYASJpvvSoWq0jsuCCIOotF6FiAa";
-const LOGO_WHITE_URL = "https://lh3.googleusercontent.com/d/1t8qAj0MkyynCrs5lxmnEk7OB2rPrG-tc";
-const LOGO_TEXT_URL = "https://lh3.googleusercontent.com/d/1vCAD1c5fwycHPGNhuNtOaQiIFQ5v_lMi";
-const LOGO_TEXT_ONLY_URL = "https://lh3.googleusercontent.com/d/1eIGKF8RosYrR0NAiCFs5rkvHmuexSkHA";
-const SONJA_PHOTO = "https://lh3.googleusercontent.com/d/1a-HFeGkgBDyUCAty8tIJSoUvIv4CkBVv";
+// Local assets (images stored in /public directory)
+const LOGO_URL = "/logo.png";
+const LOGO_WHITE_URL = "/logo-white.png";
+const LOGO_TEXT_URL = "/logo-text.png";
+const LOGO_TEXT_ONLY_URL = "/logo-text-only.png";
+const SONJA_PHOTO = "/sonja-photo.png";
 
 // --- Components ---
 
