@@ -216,9 +216,9 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
           >
             <div className="space-y-4">
               <img
-                src={LOGO_TEXT_ONLY_URL}
+                src={LOGO_URL}
                 alt="Maternidade com Propósito"
-                className="h-24 md:h-40 mx-auto mb-0 object-contain"
+                className="h-32 md:h-56 mx-auto mb-0 object-contain"
                 referrerPolicy="no-referrer"
                 loading="lazy"
                 decoding="async"
