@@ -363,7 +363,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
             </div>
             <div className="lg:w-1/2 relative w-full">
               <div className="w-full h-80 md:h-96 lg:aspect-square lg:max-w-md mx-auto bg-white rounded-full shadow-2xl p-4 md:p-8 flex items-center justify-center">
-                <ResponsiveContainer width="100%" height="100%" minWidth={250} minHeight={250}>
+                <ResponsiveContainer width="100%" height="100%" minWidth={250} minHeight={250} aspect={1}>
                   <RadarChart cx="50%" cy="50%" outerRadius="80%" data={AREAS.map(a => ({ subject: a.label, A: 80 }))}>
                     <PolarGrid stroke="#556B2F" strokeOpacity={0.2} />
                     <PolarAngleAxis dataKey="subject" tick={{ fill: '#556B2F', fontSize: 10 }} />
@@ -761,7 +761,7 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
           <div ref={resultRef}>
             <div className="w-full relative mb-12">
               <div className="w-full h-80 md:h-96 max-w-md mx-auto bg-white rounded-full shadow-2xl p-4 md:p-8 flex items-center justify-center">
-                <ResponsiveContainer width="100%" height="100%" minWidth={250} minHeight={250}>
+                <ResponsiveContainer width="100%" height="100%" minWidth={250} minHeight={250} aspect={1}>
                   <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
                     <PolarGrid stroke="#542916" strokeOpacity={0.1} />
                     <PolarAngleAxis dataKey="subject" tick={{ fill: '#542916', fontSize: 10, fontWeight: 300 }} />
