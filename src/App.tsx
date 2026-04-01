@@ -218,7 +218,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
               <img
                 src={LOGO_URL}
                 alt="Maternidade com Propósito"
-                className="h-32 md:h-56 mx-auto mb-0 object-contain"
+                className="h-40 md:h-80 mx-auto mb-0 object-contain"
                 referrerPolicy="no-referrer"
                 loading="lazy"
                 decoding="async"
