@@ -4,33 +4,33 @@
  */
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import supabase from '../supabase.js';
+import supabase from './lib/supabase';
 import html2canvas from 'html2canvas';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  ArrowRight, 
-  CheckCircle2, 
-  ChevronRight, 
-  Heart, 
-  Home as HomeIcon, 
-  Users, 
-  Sparkles, 
-  Brain, 
-  Briefcase, 
-  Stethoscope, 
-  BookOpen, 
-  MessageCircle, 
+import {
+  ArrowRight,
+  CheckCircle2,
+  ChevronRight,
+  Heart,
+  Home as HomeIcon,
+  Users,
+  Sparkles,
+  Brain,
+  Briefcase,
+  Stethoscope,
+  BookOpen,
+  MessageCircle,
   Cross,
   Menu,
   X,
   Play
 } from 'lucide-react';
-import { 
-  Radar, 
-  RadarChart, 
-  PolarGrid, 
-  PolarAngleAxis, 
-  ResponsiveContainer 
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  ResponsiveContainer
 } from 'recharts';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -87,37 +87,37 @@ const LOGO_URL = "/logo.png";
 const LOGO_WHITE_URL = "/logo-white.png";
 const LOGO_TEXT_URL = "/logo-text.png";
 const LOGO_TEXT_ONLY_URL = "/logo-text-only.png";
-const SONJA_PHOTO = "/sonja-photo.png";
+const SONJA_PHOTO = "/sonja-photo.jpeg";
 
 // --- Components ---
 
 const BackgroundElements = () => (
   <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.03] z-0">
-    <motion.div 
+    <motion.div
       animate={{ y: [0, -20, 0], rotate: [12, 15, 12] }}
       transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       className="absolute top-20 left-[10%]"
     ><Cross size={120} /></motion.div>
-    
-    <motion.div 
+
+    <motion.div
       animate={{ y: [0, 20, 0], rotate: [-12, -15, -12] }}
       transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       className="absolute top-40 right-[15%]"
     ><Heart size={80} /></motion.div>
-    
-    <motion.div 
+
+    <motion.div
       animate={{ x: [0, 30, 0] }}
       transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       className="absolute top-[60%] left-[5%]"
     ><ArrowRight size={100} className="rotate-[-45deg]" /></motion.div>
-    
-    <motion.div 
+
+    <motion.div
       animate={{ scale: [1, 1.1, 1] }}
       transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       className="absolute top-[80%] right-[10%]"
     ><Users size={90} /></motion.div>
-    
-    <motion.div 
+
+    <motion.div
       animate={{ rotate: [12, 0, 12] }}
       transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       className="absolute bottom-20 left-[20%]"
@@ -136,11 +136,11 @@ const BackgroundElements = () => (
   </div>
 );
 
-const Button = ({ 
-  children, 
-  className, 
-  variant = 'primary', 
-  ...props 
+const Button = ({
+  children,
+  className,
+  variant = 'primary',
+  ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'outline' }) => {
   const variants = {
     primary: 'bg-olive text-beige hover:bg-opacity-90 shadow-lg',
@@ -149,7 +149,7 @@ const Button = ({
   };
 
   return (
-    <button 
+    <button
       className={cn(
         'px-8 py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50',
         variants[variant],
@@ -170,7 +170,7 @@ const SectionHeading = ({ title, subtitle, light = false }: { title: string, sub
       viewport={{ once: true }}
       className={cn("w-12 h-[1px] mx-auto mb-6", light ? "bg-gold" : "bg-gold")}
     />
-    <motion.h2 
+    <motion.h2
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -179,7 +179,7 @@ const SectionHeading = ({ title, subtitle, light = false }: { title: string, sub
       {title}
     </motion.h2>
     {subtitle && (
-      <motion.p 
+      <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -199,7 +199,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
   return (
     <div className="bg-texture relative">
       <BackgroundElements />
-      
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-10 pb-16 overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -215,15 +215,15 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
             className="mb-6 inline-block"
           >
             <div className="space-y-4">
-              <img 
-                src={LOGO_TEXT_ONLY_URL} 
-                alt="Maternidade com Propósito" 
+              <img
+                src={LOGO_TEXT_ONLY_URL}
+                alt="Maternidade com Propósito"
                 className="h-24 md:h-40 mx-auto mb-0 object-contain"
                 referrerPolicy="no-referrer"
                 loading="lazy"
                 decoding="async"
-                width={400}
-                height={200}
+                width={800}
+                height={400}
               />
               <div className="w-16 h-[1px] bg-gold/30 mx-auto" />
               <span className="block text-[10px] md:text-xs text-olive/60 tracking-[0.2em] uppercase max-w-xs mx-auto leading-relaxed">
@@ -232,7 +232,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
             </div>
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
@@ -241,7 +241,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
             Aprenda a fortalecer sua casa e formar filhos com <span className="font-bold text-gold">valores e direção</span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
@@ -256,6 +256,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
+            className="flex justify-center"
           >
             <Button variant="secondary" onClick={onStartDiagnosis} className="text-lg px-12 py-6 tracking-widest">
               FAZER MEU DIAGNÓSTICO <ArrowRight className="w-5 h-5" />
@@ -267,12 +268,12 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
       {/* Pain Section */}
       <section className="py-24 bg-olive text-beige">
         <div className="container mx-auto px-4">
-          <SectionHeading 
-            title="A exaustão que ninguém vê" 
+          <SectionHeading
+            title="A exaustão que ninguém vê"
             subtitle="O peso que você carrega não é falta de amor, é falta de um centro."
             light
           />
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
@@ -288,7 +289,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
                 desc: "Você ama seus filhos, mas teme que eles estejam crescendo sem os valores que você tanto preza, por falta de estrutura."
               }
             ].map((item, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -303,7 +304,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
             ))}
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -321,8 +322,8 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2">
-              <SectionHeading 
-                title="O Método: Roda do Propósito" 
+              <SectionHeading
+                title="O Método: Roda do Propósito"
                 subtitle="Existem 10 áreas que sustentam a sua vida. Quando uma falha, o peso recai sobre todas as outras."
               />
               <div className="space-y-6">
@@ -354,7 +355,7 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="mt-12 bg-gold p-6 rounded-2xl shadow-xl text-olive max-w-[280px] relative z-10">
                 <p className="font-bold text-sm uppercase tracking-wider mb-2">Área Crítica</p>
                 <p className="text-xs opacity-80">Descubra qual área está te esgotando hoje através do nosso diagnóstico exclusivo.</p>
@@ -402,10 +403,10 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
           <div className="flex flex-col md:flex-row items-center gap-16">
             <div className="md:w-1/2">
               <div className="relative group">
-                <motion.div 
+                <motion.div
                   initial={{ rotate: 6 }}
                   whileHover={{ rotate: 0 }}
-                  className="absolute -inset-4 border border-gold/20 rounded-3xl transition-all duration-700" 
+                  className="absolute -inset-4 border border-gold/20 rounded-3xl transition-all duration-700"
                 />
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -413,9 +414,9 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
                   viewport={{ once: true }}
                   transition={{ duration: 1 }}
                 >
-                  <img 
-                    src={SONJA_PHOTO} 
-                    alt="Sonja - Fundadora MCP" 
+                  <img
+                    src={SONJA_PHOTO}
+                    alt="Sonja - Fundadora MCP"
                     className="relative rounded-3xl shadow-2xl grayscale group-hover:grayscale-0 transition-all duration-1000 w-full object-cover aspect-[4/5]"
                     referrerPolicy="no-referrer"
                     loading="lazy"
@@ -460,9 +461,21 @@ const Home = ({ onStartDiagnosis }: { onStartDiagnosis: () => void }) => {
 const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete: (data: DiagnosisData, formData?: { name: string; email: string; whatsapp: string }) => void, onStartDiagnosis?: () => void, onLeadCreated?: (lead: any) => void }) => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({ name: '', email: '', whatsapp: '' });
+  const [touched, setTouched] = useState({ name: false, email: false, whatsapp: false });
   const [scores, setScores] = useState<DiagnosisData>(INITIAL_DIAGNOSIS);
 
-  const isFormValid = formData.name.length > 2 && formData.email.includes('@') && formData.whatsapp.length > 8;
+  const isNameValid = formData.name.length > 2;
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+  const isPhoneValid = formData.whatsapp.replace(/\D/g, '').length >= 10;
+  const isFormValid = isNameValid && isEmailValid && isPhoneValid;
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 11) value = value.slice(0, 11);
+    value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+    value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+    setFormData({ ...formData, whatsapp: value });
+  };
 
   const handleNext = () => {
     if (step < AREAS.length) {
@@ -516,12 +529,12 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
   return (
     <div className="min-h-screen bg-beige flex items-center justify-center p-4 relative overflow-hidden">
       <BackgroundElements />
-      <motion.div 
+      <motion.div
         layout
         className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 max-w-2xl w-full border border-gold/10 relative overflow-hidden"
       >
         <div className="absolute top-0 left-0 w-full h-1 bg-gold/5">
-          <motion.div 
+          <motion.div
             className="h-full bg-gold"
             initial={{ width: 0 }}
             animate={{ width: `${(step / (AREAS.length + 1)) * 100}%` }}
@@ -542,42 +555,49 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
               </div>
               <form onSubmit={handleInscricao} className="space-y-6">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest mb-3 opacity-60">Seu Nome</label>
-                  <input 
-                    type="text" 
+                  <label className="block text-[10px] font-bold uppercase tracking-widest mb-3 opacity-80">Seu Nome</label>
+                  <input
+                    type="text"
                     value={formData.name}
-                    onChange={e => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-6 py-4 rounded-xl border border-olive/10 focus:border-gold outline-none transition-all duration-300 bg-beige/30"
+                    onChange={e => setFormData({ ...formData, name: e.target.value })}
+                    onBlur={() => setTouched({ ...touched, name: true })}
+                    className={cn("w-full px-6 py-4 rounded-xl border outline-none transition-all duration-300 bg-white shadow-sm", touched.name && !isNameValid ? "border-red-400 focus:border-red-500 bg-red-50/50" : "border-olive/10 focus:border-gold")}
                     placeholder="Como quer ser chamada?"
                     name="nome"
                   />
+                  {touched.name && !isNameValid && <span className="text-red-500 text-xs mt-1 block font-medium">Nome deve ter mais de 2 letras.</span>}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest mb-3 opacity-60">Seu Melhor E-mail</label>
-                  <input 
-                    type="email" 
+                  <label className="block text-[10px] font-bold uppercase tracking-widest mb-3 opacity-80">Seu Melhor E-mail</label>
+                  <input
+                    type="email"
                     value={formData.email}
-                    onChange={e => setFormData({...formData, email: e.target.value})}
-                    className="w-full px-6 py-4 rounded-xl border border-olive/10 focus:border-gold outline-none transition-all duration-300 bg-beige/30"
+                    onChange={e => setFormData({ ...formData, email: e.target.value })}
+                    onBlur={() => setTouched({ ...touched, email: true })}
+                    className={cn("w-full px-6 py-4 rounded-xl border outline-none transition-all duration-300 bg-white shadow-sm", touched.email && !isEmailValid ? "border-red-400 focus:border-red-500 bg-red-50/50" : "border-olive/10 focus:border-gold")}
                     placeholder="Onde enviaremos seu resultado?"
                     name="email"
                   />
+                  {touched.email && !isEmailValid && <span className="text-red-500 text-xs mt-1 block font-medium">Insira um e-mail válido com @.</span>}
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest mb-3 opacity-60">Seu WhatsApp</label>
-                  <input 
-                    type="tel" 
+                  <label className="block text-[10px] font-bold uppercase tracking-widest mb-3 opacity-80">Seu WhatsApp</label>
+                  <input
+                    type="tel"
                     value={formData.whatsapp}
-                    onChange={e => setFormData({...formData, whatsapp: e.target.value})}
-                    className="w-full px-6 py-4 rounded-xl border border-olive/10 focus:border-gold outline-none transition-all duration-300 bg-beige/30"
+                    onChange={handlePhoneChange}
+                    onBlur={() => setTouched({ ...touched, whatsapp: true })}
+                    className={cn("w-full px-6 py-4 rounded-xl border outline-none transition-all duration-300 bg-white shadow-sm", touched.whatsapp && !isPhoneValid ? "border-red-400 focus:border-red-500 bg-red-50/50" : "border-olive/10 focus:border-gold")}
                     placeholder="(00) 00000-0000"
+                    maxLength={15}
                     name="whatsapp"
                   />
+                  {touched.whatsapp && !isPhoneValid && <span className="text-red-500 text-xs mt-1 block font-medium">Insira um número válido com DDD.</span>}
                 </div>
                 <Button
                   type="submit"
                   variant="primary"
-                  className="w-full py-6 tracking-[0.2em]"
+                  className={cn("w-full py-6 tracking-[0.2em] transition-opacity", !isFormValid && "opacity-50 cursor-not-allowed")}
                   disabled={!isFormValid}
                 >
                   INICIAR TESTE <ChevronRight />
@@ -596,12 +616,12 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-gold">Área {step} de 10</span>
                 <div className="flex gap-1">
                   {AREAS.map((_, i) => (
-                    <div 
-                      key={i} 
+                    <div
+                      key={i}
                       className={cn(
                         "w-6 h-1 rounded-full transition-all duration-500",
                         i < step ? "bg-gold" : "bg-olive/10"
-                      )} 
+                      )}
                     />
                   ))}
                 </div>
@@ -623,17 +643,21 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
                   <span>Extremo Negativo (0)</span>
                   <span>Extremo Positivo (10)</span>
                 </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="10" 
-                  step="1"
-                  value={scores[currentArea.id as keyof DiagnosisData]}
-                  onChange={e => setScores({...scores, [currentArea.id]: parseInt(e.target.value)})}
-                  className="w-full h-1 bg-olive/10 rounded-lg appearance-none cursor-pointer accent-gold"
-                />
-                <div className="text-center text-6xl font-serif text-gold opacity-80">
-                  {scores[currentArea.id as keyof DiagnosisData]}
+                <div className="flex flex-wrap justify-center gap-2 md:gap-3 w-full pb-8">
+                  {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(val => (
+                    <button
+                      key={val}
+                      onClick={() => setScores({ ...scores, [currentArea.id]: val })}
+                      className={cn(
+                        "w-12 h-12 md:w-14 md:h-14 rounded-full border-2 flex items-center justify-center font-serif font-bold transition-all text-lg",
+                        scores[currentArea.id as keyof DiagnosisData] === val
+                          ? "bg-gold border-gold text-white scale-110 shadow-lg"
+                          : "border-olive/10 text-olive hover:border-gold/50 hover:bg-gold/5 bg-white"
+                      )}
+                    >
+                      {val}
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -669,16 +693,16 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
       // Wait for Radar chart to fully render before capturing
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('✅ Waited for render, now capturing...');
-      
-      const canvas = await html2canvas(resultRef.current as HTMLElement, { 
-        useCORS: true, 
+
+      const canvas = await html2canvas(resultRef.current as HTMLElement, {
+        useCORS: true,
         scale: 2,
         backgroundColor: '#f5f0e8',
         logging: true,
         allowTaint: false
       });
       console.log('📸 Canvas capture successful, dimensions:', canvas.width, 'x', canvas.height);
-      
+
       const ctx = canvas.getContext('2d');
       if (ctx) {
         const watermark = '@sonjachacon';
@@ -694,7 +718,7 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
 
       const url = canvas.toDataURL('image/png');
       console.log('✅ Image generated, size:', url.length, 'bytes');
-      
+
       const link = document.createElement('a');
       link.href = url;
       link.download = 'meu_resultado.png';
@@ -716,7 +740,7 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
   }, [data]);
 
   const criticalArea = useMemo(() => {
-    const sorted = [...AREAS].sort((a, b) => 
+    const sorted = [...AREAS].sort((a, b) =>
       data[a.id as keyof DiagnosisData] - data[b.id as keyof DiagnosisData]
     );
     return sorted[0];
@@ -726,14 +750,14 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
     <div className="min-h-screen bg-beige py-12 px-4 relative overflow-hidden">
       <BackgroundElements />
       <div className="container mx-auto max-w-4xl relative z-10">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-3xl shadow-2xl p-8 md:p-16 text-center"
         >
           <h2 className="text-gold font-bold tracking-widest uppercase text-sm mb-4">Seu Diagnóstico foi gerado</h2>
           <h1 className="text-4xl md:text-6xl font-serif mb-12">O retrato da sua <span className="italic">estrutura atual</span></h1>
-          
+
           <div ref={resultRef}>
             <div className="w-full relative mb-12">
               <div className="w-full h-80 md:h-96 max-w-md mx-auto bg-white rounded-full shadow-2xl p-4 md:p-8 flex items-center justify-center">
@@ -775,7 +799,7 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
                 mas visualizar não resolve."
               </p>
             </div>
-            <a 
+            <a
               href="https://pay.hotmart.com/O104824255V?bid=1774973353512"
               target="_blank"
               rel="noopener noreferrer"
@@ -804,7 +828,7 @@ const Sales = () => {
   return (
     <div className="min-h-screen bg-beige pt-20 relative">
       <BackgroundElements />
-      
+
       {/* Hero Sales */}
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-4xl text-center">
@@ -820,7 +844,7 @@ const Sales = () => {
             <p className="text-xl text-olive/70 mb-12 leading-relaxed max-w-2xl mx-auto tracking-wide">
               O diagnóstico mostrou onde você está perdendo energia. Agora, eu vou te mostrar como fechar esses vazamentos e construir um alicerce inabalável.
             </p>
-            
+
             <div className="grid md:grid-cols-2 gap-8 mb-12 text-left">
               <div className="bg-beige/30 p-8 rounded-2xl border border-gold/5">
                 <h3 className="font-serif text-xl mb-4 text-olive">O que você vai aprender:</h3>
@@ -869,9 +893,9 @@ const Sales = () => {
             <div className="relative">
               <div className="absolute -inset-4 border border-gold/20 rounded-2xl rotate-6 z-0" />
               <div className="w-72 h-96 rounded-2xl overflow-hidden shadow-2xl relative z-10">
-                <img 
-                  src={SONJA_PHOTO} 
-                  alt="Sonja" 
+                <img
+                  src={SONJA_PHOTO}
+                  alt="Sonja"
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                   referrerPolicy="no-referrer"
                   loading="lazy"
@@ -918,7 +942,7 @@ const Privacy = ({ onBack }: { onBack: () => void }) => {
           </button>
 
           <h1 className="text-4xl md:text-5xl font-serif mb-8 text-olive">Política de Privacidade</h1>
-          
+
           <div className="space-y-8 text-olive/80 leading-relaxed">
             <section>
               <h2 className="text-2xl font-serif font-bold mb-4 text-olive">1. Introdução</h2>
@@ -993,43 +1017,62 @@ const Privacy = ({ onBack }: { onBack: () => void }) => {
       </div>
     </div>
   );
-}
 };
 
 // --- Main App ---
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [currentPage, setCurrentPage] = useState<Page>(
+    (window.location.hash.replace('#', '') as Page) || 'home'
+  );
   const [diagnosisData, setDiagnosisData] = useState<DiagnosisData | null>(null);
   const [lead, setLead] = useState<any | null>(null);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hashPage = window.location.hash.replace('#', '');
+      if (hashPage && ['home', 'diagnosis', 'result', 'sales', 'privacy'].includes(hashPage)) {
+        setCurrentPage(hashPage as Page);
+      } else if (!hashPage) {
+        setCurrentPage('home');
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateTo = (page: Page) => {
+    window.location.hash = page === 'home' ? '' : page;
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
 
-  const startDiagnosis = () => setCurrentPage('diagnosis');
+  const startDiagnosis = () => navigateTo('diagnosis');
   const completeDiagnosis = async (data: DiagnosisData, formData?: { name: string; email: string; whatsapp: string }) => {
     setDiagnosisData(data);
     console.log('📈 Diagnosis completed - transitioning to Result screen');
     console.log('Form data:', formData);
     console.log('Note: Scores are not persisted to Supabase per requirements. Lead data (name/email/whatsapp) saved during form submission.');
-    
-    setCurrentPage('result');
+
+    navigateTo('result');
   };
-  const goToSales = () => setCurrentPage('sales');
+  const goToSales = () => navigateTo('sales');
 
   return (
     <div className="min-h-screen selection:bg-gold selection:text-olive">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-beige/80 backdrop-blur-md border-b border-gold/10">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-          <div 
+          <div
             className="cursor-pointer flex items-center"
-            onClick={() => setCurrentPage('home')}
+            onClick={() => navigateTo('home')}
           >
-            <img 
-              src={LOGO_TEXT_URL} 
-              alt="Maternidade com Propósito" 
+            <img
+              src={LOGO_TEXT_URL}
+              alt="Maternidade com Propósito"
               className="h-6 md:h-8 lg:h-12 object-contain"
               referrerPolicy="no-referrer"
               loading="eager"
@@ -1037,7 +1080,7 @@ export default function App() {
               height={60}
             />
           </div>
-          
+
           <div className="flex items-center gap-2 md:gap-4 lg:gap-6">
             {currentPage === 'home' && (
               <Button variant="outline" onClick={startDiagnosis} className="px-2 md:px-4 lg:px-6 py-1.5 md:py-2 text-[8px] md:text-[9px] lg:text-[10px] tracking-widest whitespace-nowrap">
@@ -1105,7 +1148,7 @@ export default function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <Privacy onBack={() => setCurrentPage('home')} />
+              <Privacy onBack={() => navigateTo('home')} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -1114,9 +1157,9 @@ export default function App() {
       {currentPage !== 'diagnosis' && currentPage !== 'privacy' && (
         <footer className="py-16 bg-olive text-beige/50 text-center border-t border-beige/10">
           <div className="flex flex-col items-center gap-6 mb-8">
-            <img 
-              src={LOGO_TEXT_URL} 
-              alt="Maternidade com Propósito" 
+            <img
+              src={LOGO_TEXT_URL}
+              alt="Maternidade com Propósito"
               className="h-16 md:h-20 object-contain opacity-80 brightness-0 invert"
               referrerPolicy="no-referrer"
               loading="lazy"
@@ -1134,8 +1177,8 @@ export default function App() {
           <div className="w-12 h-[1px] bg-gold/30 mx-auto mb-8" />
           <div className="flex flex-col items-center gap-4 mb-6">
             <p className="text-[10px] tracking-widest uppercase opacity-40">© 2026 Maternidade com Propósito (MCP™). Todos os direitos reservados.</p>
-            <button 
-              onClick={() => setCurrentPage('privacy')}
+            <button
+              onClick={() => navigateTo('privacy')}
               className="text-[10px] tracking-widest uppercase opacity-40 hover:opacity-70 transition-opacity cursor-pointer"
               title="Política de Privacidade - LGPD"
             >
