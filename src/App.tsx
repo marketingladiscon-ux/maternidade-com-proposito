@@ -812,7 +812,7 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
             >
               <div className="flex flex-col items-center justify-center w-full gap-2">
                 <span className="text-sm font-semibold leading-tight">LIVE DE APROFUNDAMENTO MCP</span>
-                <span className="text-xs opacity-90 mt-1">Sábado, 11 de Abril, às 20h (Horário de Brasília)</span>
+                <span className="text-xs opacity-90 mt-1">Sábado, 11 de Abril, às 15h (Horário de Brasília)</span>
                 <span className="text-base font-bold mt-2">GARANTIR MINHA VAGA ✨</span>
               </div>
             </a>
@@ -858,7 +858,7 @@ const Sales = () => {
                 <h3 className="font-serif text-xl mb-4 text-olive">Detalhes da Aula:</h3>
                 <ul className="space-y-4 text-sm text-olive/70">
                   <li className="flex items-start gap-3"><span className="text-gold">📅</span> Sábado, 11 de Abril</li>
-                  <li className="flex items-start gap-3"><span className="text-gold">⏰</span> Às 19h (Horário de Brasília)</li>
+                  <li className="flex items-start gap-3"><span className="text-gold">⏰</span> Às 15h (Horário de Brasília)</li>
                   <li className="flex items-start gap-3"><span className="text-gold">📍</span> Transmissão Online</li>
                 </ul>
               </div>
@@ -877,7 +877,7 @@ const Sales = () => {
             >
               <div className="flex flex-col items-center justify-center w-full">
                 <span className="text-sm font-semibold leading-tight">LIVE DE APROFUNDAMENTO MCP</span>
-                <span className="text-xs opacity-90 mt-1">Sábado, 11 de Abril, às 20h (Horário de Brasília)</span>
+                <span className="text-xs opacity-90 mt-1">Sábado, 11 de Abril, às 15h (Horário de Brasília)</span>
                 <span className="text-base font-bold mt-2">GARANTIR MINHA VAGA ✨</span>
               </div>
             </a>
