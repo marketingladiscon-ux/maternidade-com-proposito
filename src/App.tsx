@@ -515,9 +515,7 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
       }
     }
 
-    // Redirect to Google Sheets instead of showing alert
-    window.location.href = 'https://docs.google.com/spreadsheets/d/1pCuAWa3_zBM4NoJvB7ATeil6JJSS3fMYZ5UYcupRqbI/edit?resourcekey=&gid=1328431319#gid=1328431319';
-    // proceed to next step/screen
+    // Proceed to next step without redirect - user continues with diagnosis
     handleNext();
   };
 
