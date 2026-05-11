@@ -800,7 +800,7 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
               </p>
             </div>
             <a
-              href="https://pay.hotmart.com/O104824255V?bid=1774973353512"
+              href="https://forms.gle/W464p9Va5aK385c2A"
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
@@ -811,8 +811,8 @@ const Result = ({ data, onGoToSales }: { data: DiagnosisData, onGoToSales: () =>
               )}
             >
               <div className="flex flex-col items-center justify-center w-full gap-2">
-                <span className="text-sm font-semibold leading-tight">LIVE DE APROFUNDAMENTO MCP</span>
-                <span className="text-xs opacity-90 mt-1">Sábado, 11 de Abril, às 15h (Horário de Brasília)</span>
+                <span className="text-sm font-semibold leading-tight">MCP - O DESPERTAR DA ARQUEIRA</span>
+                <span className="text-xs opacity-90 mt-1">Sábado, 22 de AGOSTO, às 14h às 21h (Horário de Brasília)</span>
                 <span className="text-base font-bold mt-2">GARANTIR MINHA VAGA ✨</span>
               </div>
             </a>
@@ -857,15 +857,15 @@ const Sales = () => {
               <div className="bg-beige/30 p-8 rounded-2xl border border-gold/5">
                 <h3 className="font-serif text-xl mb-4 text-olive">Detalhes da Aula:</h3>
                 <ul className="space-y-4 text-sm text-olive/70">
-                  <li className="flex items-start gap-3"><span className="text-gold">📅</span> Sábado, 11 de Abril</li>
-                  <li className="flex items-start gap-3"><span className="text-gold">⏰</span> Às 15h (Horário de Brasília)</li>
-                  <li className="flex items-start gap-3"><span className="text-gold">📍</span> Transmissão Online</li>
+                  <li className="flex items-start gap-3"><span className="text-gold">📅</span> Sábado, 22 de Agosto</li>
+                  <li className="flex items-start gap-3"><span className="text-gold">⏰</span> 14h às 21h (Horário de Brasília)</li>
+                  <li className="flex items-start gap-3"><span className="text-gold">📍</span> Lounge Yágizi e Transmissão Online</li>
                 </ul>
               </div>
             </div>
 
             <a
-              href="https://pay.hotmart.com/O104824255V?bid=1774973353512"
+              href="https://forms.gle/W464p9Va5aK385c2A"
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
@@ -876,8 +876,8 @@ const Sales = () => {
               )}
             >
               <div className="flex flex-col items-center justify-center w-full">
-                <span className="text-sm font-semibold leading-tight">LIVE DE APROFUNDAMENTO MCP</span>
-                <span className="text-xs opacity-90 mt-1">Sábado, 11 de Abril, às 15h (Horário de Brasília)</span>
+                <span className="text-sm font-semibold leading-tight">MCP - O DESPERTAR DA ARQUEIRA</span>
+                <span className="text-xs opacity-90 mt-1">Sábado, 22 de AGOSTO, às 14h às 21h (Horário de Brasília)</span>
                 <span className="text-base font-bold mt-2">GARANTIR MINHA VAGA ✨</span>
               </div>
             </a>
@@ -1088,7 +1088,7 @@ export default function App() {
               </Button>
             )}
             <Button variant="primary" onClick={goToSales} className="px-2 md:px-4 lg:px-6 py-1.5 md:py-2 text-[8px] md:text-[9px] lg:text-[10px] tracking-widest whitespace-nowrap">
-              AULA AO VIVO
+              MCP - O DESPERTAR DA ARQUEIRA
             </Button>
           </div>
         </div>
