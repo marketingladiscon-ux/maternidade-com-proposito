@@ -490,29 +490,33 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
     e.preventDefault();
     if (!isFormValid) return;
 
-    const { data, error } = await supabase
-      .from('LEADS')
-      .insert([
-        { nome: formData.name, email: formData.email, whatsApp: formData.whatsapp },
-      ]);
-
-    if (error) {
-      console.log(error);
-      window.alert(error.message || JSON.stringify(error));
-      return;
-    }
-
-    if (data && data[0]) {
-      if (onLeadCreated) onLeadCreated(data[0]);
-      try {
-        // persist lead id locally so it can be used later when updating scores
-        const createdId = data[0].id;
-        if (createdId) {
-          localStorage.setItem('leadId', String(createdId));
+    try {
+      // Send data to Google Apps Script
+      const response = await fetch(
+        'https://script.google.com/macros/s/AKfycbx1NHb9GBe3Lw6v8c2VlndRgXGr7E68vl4EOaFnDKrsXYwnZB6VmSb8obJ7YIspxQBHJw/exec',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            nome: formData.name,
+            email: formData.email,
+            whatsapp: formData.whatsapp
+          })
         }
-      } catch (err) {
-        console.warn('Could not persist lead id to localStorage', err);
+      );
+
+      const result = await response.json();
+
+      if (!result.success) {
+        console.log('Error:', result.error);
+        window.alert('Erro ao salvar dados: ' + (result.error || 'Tente novamente'));
+        return;
       }
+
+      console.log('✅ Dados salvos na planilha com sucesso!');
+    } catch (error) {
+      console.error('❌ Erro ao enviar dados:', error);
+      window.alert('Erro ao enviar dados. Tente novamente.');
+      return;
     }
 
     // Proceed to next step without redirect - user continues with diagnosis
