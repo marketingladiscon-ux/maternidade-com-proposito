@@ -4,7 +4,6 @@
  */
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import supabase from './lib/supabase';
 import html2canvas from 'html2canvas';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -490,36 +489,31 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
     e.preventDefault();
     if (!isFormValid) return;
 
+    const url = 'https://script.google.com/macros/s/AKfycbx6_74OZ_7RmHicWmKDZ4qejh-4cZtfkTYVPlw4lGQ3doC3wqFE1ElqAqxKq13gcgEd4A/exec';
+
     try {
-      // Send data to Google Apps Script
-      const response = await fetch(
-        'https://script.google.com/macros/s/AKfycbx1NHb9GBe3Lw6v8c2VlndRgXGr7E68vl4EOaFnDKrsXYwnZB6VmSb8obJ7YIspxQBHJw/exec',
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            nome: formData.name,
-            email: formData.email,
-            whatsapp: formData.whatsapp
-          })
-        }
-      );
+      await fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nome: formData.name,
+          email: formData.email,
+          whatsapp: formData.whatsapp,
+        }),
+      });
 
-      const result = await response.json();
-
-      if (!result.success) {
-        console.log('Error:', result.error);
-        window.alert('Erro ao salvar dados: ' + (result.error || 'Tente novamente'));
-        return;
-      }
-
-      console.log('✅ Dados salvos na planilha com sucesso!');
+      // No-cors mode does not allow reading the response body,
+      // so we assume success if the request did not throw.
+      console.log('✅ Dados enviados para processamento');
     } catch (error) {
       console.error('❌ Erro ao enviar dados:', error);
-      window.alert('Erro ao enviar dados. Tente novamente.');
+      window.alert('Erro ao enviar dados. Verifique sua conexão.');
       return;
     }
 
-    // Proceed to next step without redirect - user continues with diagnosis
     handleNext();
   };
 
