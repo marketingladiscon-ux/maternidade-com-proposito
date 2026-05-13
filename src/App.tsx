@@ -489,12 +489,11 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
     e.preventDefault();
     if (!isFormValid) return;
 
-    const url = 'https://script.google.com/macros/s/AKfycbx6_74OZ_7RmHicWmKDZ4qejh-4cZtfkTYVPlw4lGQ3doC3wqFE1ElqAqxKq13gcgEd4A/exec';
+    const url = 'https://webhook.criarr.shop/webhook/diagnostico-free';
 
     try {
-      await fetch(url, {
+      const response = await fetch(url, {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -502,19 +501,24 @@ const Diagnosis = ({ onComplete, onStartDiagnosis, onLeadCreated }: { onComplete
           nome: formData.name,
           email: formData.email,
           whatsapp: formData.whatsapp,
+          data_origem: new Date().toISOString(),
+          projeto: 'MCP - Diagnóstico',
         }),
       });
 
-      // No-cors mode does not allow reading the response body,
-      // so we assume success if the request did not throw.
-      console.log('✅ Dados enviados para processamento');
+      if (response.ok) {
+        console.log('✅ Lead capturado e enviado para o n8n');
+        handleNext();
+      } else {
+        console.error('❌ Erro na automação:', response.statusText);
+        // Mesmo com erro na automação, você pode decidir se quer 
+        // deixar a mãe seguir para o diagnóstico ou avisar do erro
+        handleNext();
+      }
     } catch (error) {
-      console.error('❌ Erro ao enviar dados:', error);
-      window.alert('Erro ao enviar dados. Verifique sua conexão.');
-      return;
+      console.error('❌ Erro de rede:', error);
+      window.alert('Houve um problema de conexão. Por favor, tente novamente.');
     }
-
-    handleNext();
   };
 
   const handlePrev = () => {
